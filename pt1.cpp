@@ -15,6 +15,15 @@ std::vector<float> generate_matrix(int size, int seed){
   std::generate(matrix.begin(), matrix.end(), [&](){return dis(gen);});
   return matrix;
 }
+void print_matrix_chunk(std::vector<float> matrix, int size, int chunk_size){
+  for (int i = 0; i < chunk_size; i++) {
+    for (int j = 0; j < chunk_size; j++){
+      std::cout << matrix[i*size+j] << " ";
+    }
+    std::cout << std::endl;
+  }
+}
+
 int main(){
   //# print the size and worker size.
   std::cout << "Matrix size: " << N << std::endl;
