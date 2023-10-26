@@ -5,7 +5,7 @@
 #include <iostream>
 #include <vector>
 using namespace sycl;
-static const int N = 16;
+static const int N = 2048;
 static const int N_workers = N / 2;
 
 std::vector<float> generate_matrix(int size, int seed){
@@ -70,12 +70,8 @@ int main(){
   });
   host_accessor hC(bufC, read_only);
   //# Print Output
-  for (int i = 0; i < N; i++) {
-    for (int j = 0; j < N; j++){
-      std::cout << hC[i*N+j] << " ";
-    }
-    std::cout << std::endl;
-  }
+  std::cout << "Output Matrix" << std::endl;
+  print_matrix_chunk(C, N, 4);
   free(data, q);
   std::cout << "Completed" << std::endl;
   return 0;
