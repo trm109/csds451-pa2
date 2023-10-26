@@ -6,6 +6,7 @@
 #include <vector>
 using namespace sycl;
 static const int N = 16;
+static const int N_workers = N / 4;
 
 std::vector<float> generate_matrix(int size, int seed){
   std::vector<float> matrix(size*size);
@@ -15,6 +16,9 @@ std::vector<float> generate_matrix(int size, int seed){
   return matrix;
 }
 int main(){
+  //# print the size and worker size.
+  std::cout << "Matrix size: " << N << std::endl;
+  std::cout << "Worker size: " << N_workers << std::endl;
   //# define queue which has default device associated for offload
   queue q;
   std::cout << "Device: " << q.get_device().get_info<info::device::name>() << "\n";
@@ -40,7 +44,7 @@ int main(){
     
     //# Define size.
     range<2> global_size(N, N);
-    range<2> work_group_size(4, 4);
+    range<2> work_group_size(N_workers, N_workers);
     //# Parallel computation.
     h.parallel_for(nd_range<2>(global_size, work_group_size), [=](nd_item<2> it){
       //# Get global id.
