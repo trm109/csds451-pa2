@@ -6,7 +6,7 @@
 #include <vector>
 using namespace sycl;
 static const int N = 16;
-static const int N_workers = N / 4;
+static const int N_workers = N / 2;
 
 std::vector<float> generate_matrix(int size, int seed){
   std::vector<float> matrix(size*size);
