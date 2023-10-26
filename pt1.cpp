@@ -1,18 +1,18 @@
 #include <sycl/sycl.hpp>
+#include <random>
+#include <algorithm>
+#include <iterator>
+#include <iostream>
+#include <vector>
 using namespace sycl;
 static const int N = 16;
 
 std::vector<float> generate_matrix(int size, int seed){
   std::vector<float> matrix(size*size);
-  std::mt19937 rng(seed);
-  std::uniform_real_distribution<float> dist(0.0f, 1.0f);
-  for(int i=0; i<size; i++){
-    for(int j=0; j<size; j++){
-      matrix[i*size+j] = dist(rng);
-    }
-  }
+  std::mt19937 gen(seed);
+  std::uniform_real_distribution<float> dis(0.0, 1.0);
+  std::generate(matrix.begin(), matrix.end(), [&](){return dis(gen);});
   return matrix;
-
 }
 int main(){
   //# define queue which has default device associated for offload
